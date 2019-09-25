@@ -1,0 +1,2124 @@
+<!DOCTYPE html>
+ <html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="main.css">
+    </head>
+    <style>
+        
+    </style>
+    <body>
+        <div id="overArea">
+            <h2 class="gameOverText">GAME OVER</h2> <br>
+            <p id="skorText" class="skorText"><u>Skorunuz</u> <br> </p>
+            <button id="newGameButton" class="newGameButton" onclick="selectWord(); document.getElementById('overArea').style.display = 'none';">New Game</button>
+        </div>
+        <div id="allarea">
+            <div class="canvasArea">
+                <canvas class="can1" id="tuval" height="200px" width="200px">
+
+                </canvas>
+                <canvas class="can" id="tuval2" height="200px" width="200px">
+
+                </canvas>
+                <canvas class="can" id="tuval3" height="200px" width="200px">
+
+                </canvas>
+                <canvas class="can" id="tuval4" height="200px" width="200px">
+
+                </canvas>
+                <canvas class="can" id="tuval5" height="200px" width="200px">
+
+                </canvas>
+                <canvas class="can" id="tuval6" height="200px" width="200px">
+
+                </canvas>
+                <canvas class="can" id="tuval7" height="200px" width="200px">
+
+                </canvas>
+            </div>
+        
+            <div class="wordSınıfArea">
+            <h3 class="wordSınıfHeader">IPUCU</h3>
+            <div id="wordSınıf" class="wordSınıf"></div>
+            </div>
+            <div id="wordArea" class="wordArea"></div>
+            <div id="keywordArea">
+            <button class="harfbutton" id="A" onclick="harfA(); ">A</button>
+            <button class="harfbutton" id="B" onclick="harfB(); ">B</button>
+            <button class="harfbutton" id="C" onclick="harfC(); ">C</button>
+            <button class="harfbutton" id="Ç" onclick="harfÇ(); ">C</button>
+            <button class="harfbutton" id="D" onclick="harfD(); ">D</button>
+            <button class="harfbutton" id="E" onclick="harfE(); ">E</button>
+            <button class="harfbutton" id="F" onclick="harfF(); ">F</button>
+            <button class="harfbutton" id="G" onclick="harfG(); ">G</button>
+            <button class="harfbutton" id="Ğ" onclick="harfĞ(); ">Ğ</button>
+            <button class="harfbutton" id="H" onclick="harfH(); ">H</button>
+            <button class="harfbutton" id="I" onclick="harfI(); ">I</button>
+            <button class="harfbutton" id="İ" onclick="harfİ(); ">İ</button>
+            <button class="harfbutton" id="J" onclick="harfJ(); ">J</button>
+            <button class="harfbutton" id="K" onclick="harfK(); ">K</button>
+            <button class="harfbutton" id="L" onclick="harfL(); ">L</button>
+            <button class="harfbutton" id="M" onclick="harfM(); ">M</button>
+            <button class="harfbutton" id="N" onclick="harfN(); ">N</button>
+            <button class="harfbutton" id="O" onclick="harfO(); ">O</button>
+            <button class="harfbutton" id="Ö" onclick="harfÖ(); ">Ö</button>
+            <button class="harfbutton" id="P" onclick="harfP(); ">P</button>
+            <button class="harfbutton" id="R" onclick="harfR(); ">R</button>
+            <button class="harfbutton" id="S" onclick="harfS(); ">S</button>
+            <button class="harfbutton" id="Ş" onclick="harfŞ(); ">Ş</button>
+            <button class="harfbutton" id="T" onclick="harfT(); ">T</button>
+            <button class="harfbutton" id="U" onclick="harfU(); ">U</button>
+            <button class="harfbutton" id="Ü" onclick="harfÜ(); ">Ü</button>
+            <button class="harfbutton" id="V" onclick="harfV(); ">V</button>
+            <button class="harfbutton" id="Y" onclick="harfY(); ">Y</button>
+            <button class="harfbutton" id="Z" onclick="harfZ(); ">Z</button> 
+            
+        </div> 
+        <h1 class="skorBaslik">SKOR</h1>
+        <p id="skor" class="skor">0</p>
+        <h1 class="yanlisHarfler">Yanlış Harfler</h1>
+        
+        <p id="NoWords" class="noWords"></p>
+        
+    </div>
+    
+        <script>
+            /* KELIME SECME */
+            var esya = Array("MASA", "SANDALYE", "TELEVİZYON", "KOLTUK", "VANTİLATÖR", "YASTIK", "YATAK", "AVİZE",);
+            var meslek = Array("ÖĞRETMEN", "AŞÇI", "PİLOT", "MÜHENDİS", "MARANGOZ", "SOFÖR", "POLİS", "HEMŞİRE", "DOKTOR", "VETERİNER");
+            var hayvan = Array("KAPLAN", "ASLAN", "KEDİ", "KÖPEK", "KURBAĞA", "KARTAL", "KANARYA", "KAPLUMBAĞA", "GÜVERCİN", "LEYLEK");
+            var words = Array(esya, meslek, hayvan);
+            var selectedWord = "";
+            var newLine = "";
+            var splitWord = "";
+            var lineParag = "";
+            var paragWord = "";
+           
+
+            function selectWord(){
+                
+            selectedSınıf = words[Math.floor(Math.random() * words.length)];
+            if (selectedSınıf == esya ){
+                selectedWord = esya[Math.floor(Math.random() * esya.length)];
+                var selectedWordIndex = esya.indexOf(selectedWord);
+                    if( selectedWordIndex !== -1){
+                    esya.splice(selectedWordIndex,1);
+                    }
+                document.getElementById("wordSınıf").innerHTML = "ESYA";
+            }else if(selectedSınıf == meslek){
+                selectedWord = meslek[Math.floor(Math.random() * meslek.length)];
+                var selectedWordIndex = meslek.indexOf(selectedWord);
+                if( selectedWordIndex !== -1){
+                meslek.splice(selectedWordIndex,1);
+                }
+                document.getElementById("wordSınıf").innerHTML = "MESLEK";
+            }else if(selectedSınıf == hayvan){
+                selectedWord = hayvan[Math.floor(Math.random() * hayvan.length)];
+                var selectedWordIndex = hayvan.indexOf(selectedWord);
+                if( selectedWordIndex !== -1){
+                hayvan.splice(selectedWordIndex,1);
+                }
+                document.getElementById("wordSınıf").innerHTML = "HAYVAN";
+            }
+            
+
+
+            /* KELIME CIZGILERI CEKME */
+            for(var i = 0; i < selectedWord.length; i++){
+                newLine = document.createElement("div");
+                newLine.id = 'line'+i;
+                newLine.className = "wordLine" ;
+                newLine.style = "border-bottom: 1px solid black; width: 30px; display: inline-block; margin: 5px; text-align: center; font-size: 30px;"
+                document.getElementById("wordArea").appendChild(newLine);
+            }
+
+            /* KELIMEYI CIZGISINE KOYMA */
+            for(var s = 0; s < selectedWord.length; s++){
+                splitWord = selectedWord.split('');
+                lineParag = document.createElement("p");
+                lineParag.className = "lineParag";
+                lineParag.id = 'lineParag'+ s ;
+                paragWord = document.createTextNode(selectedWord[s]);
+                document.getElementById("line"+s).appendChild(lineParag.appendChild(paragWord));   
+            }
+            }
+            selectWord();
+
+            var hataliHarf = "";
+            var hataliHarfSayisi = "";  
+                      
+            /* YAPILAN HATA SAYISI */
+            function hatali(){
+                hataliHarf = document.getElementById("NoWords").innerHTML;
+                hataliHarfSayisi = hataliHarf.length;
+                if(hataliHarfSayisi == 1){
+                    document.getElementById("tuval2").style.display = "flex";
+                }else if(hataliHarfSayisi == 2){
+                    document.getElementById("tuval3").style.display = "flex";
+                }else if(hataliHarfSayisi == 3){
+                    document.getElementById("tuval4").style.display = "flex";
+                }else if(hataliHarfSayisi == 4){
+                    document.getElementById("tuval5").style.display = "flex";
+                }else if(hataliHarfSayisi == 5){
+                    document.getElementById("tuval6").style.display = "flex";
+                }else if(hataliHarfSayisi == 6){
+                    document.getElementById("tuval7").style.display = "flex";
+                    document.getElementById("skorText").innerHTML ="SKORUNUZ"+ "<br/>"  + document.getElementById("skor").innerHTML;
+                    document.getElementById("skor").innerHTML = Number(0);
+                    document.getElementById("overArea").style.display = "flex";
+                    for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                        }
+                    for(var z = 2; z < 8; z++){
+                        if(document.getElementById("tuval" + z).style.display == "flex"){
+                        document.getElementById("tuval" +z).style.display = "none";
+                        }
+                    }
+                    cıkanHarfler = [];
+                    document.getElementById("NoWords").innerHTML = "";
+                    document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            
+                }
+            }
+
+            var cıkanHarfler = new Array();
+            
+           
+            /* HARF BUTTONLARI */
+            function harfA(){
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "A"){
+                        document.getElementById("line"+w).style.color = "black";
+                        cıkanHarfler.push("A");
+
+                        document.getElementById("A").disabled = true;
+                    }
+                }
+                
+                function kelimedeHarf(currentValue){
+                    return currentValue == "A"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                    document.getElementById("A").disabled = true;
+                    document.getElementById("NoWords").innerHTML += "A";
+                    hatali();
+                }
+                        if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            selectWord();
+                        }
+            }
+            function harfB(){
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "B"){
+                        document.getElementById("line"+w).style.color = "black";
+                        document.getElementById("B").enabled = true;
+                        cıkanHarfler.push("B");
+                    }
+                }
+                function kelimedeHarf(currentValue){
+                    return currentValue == "B"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                document.getElementById("B").disabled = true;
+                    document.getElementById("NoWords").innerHTML += "B";
+                    hatali();
+                }
+                        if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";  
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            selectWord();
+                        }
+            }
+            function harfC(){
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "C"){
+                        document.getElementById("line"+w).style.color = "black";
+                        cıkanHarfler.push("C");
+                            document.getElementById("C").disabled = true;
+                    }
+                }
+                function kelimedeHarf(currentValue){
+                    return currentValue == "C"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                document.getElementById("C").disabled = true;
+                    document.getElementById("NoWords").innerHTML += "C";
+                    hatali();
+                }
+                        if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            selectWord();
+                        }
+            }
+            function harfÇ(){
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "Ç"){
+                        document.getElementById("line"+w).style.color = "black";
+                        cıkanHarfler.push("Ç");
+                            document.getElementById("Ç").disabled = true;
+                    }
+                }
+                function kelimedeHarf(currentValue){
+                    return currentValue == "Ç"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                    document.getElementById("NoWords").innerHTML += "Ç";
+                    document.getElementById("Ç").disabled = true;
+                    hatali();
+                }
+                        if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            selectWord();
+                        }
+            }
+            function harfD(){
+                
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "D"){
+                        document.getElementById("line"+w).style.color = "black";
+                        cıkanHarfler.push("D");
+                            document.getElementById("D").disabled = true;
+                    }
+                }
+                function kelimedeHarf(currentValue){
+                    return currentValue == "D"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                    document.getElementById("NoWords").innerHTML += "D";
+                    document.getElementById("D").disabled = true;
+                    hatali();
+                }
+                        if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            selectWord();
+                        }
+            }
+            function harfE(){
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "E"){
+                        document.getElementById("line"+w).style.color = "black";
+                        cıkanHarfler.push("E");
+                        document.getElementById("E").disabled = true;
+                        
+                    }
+                }
+                function kelimedeHarf(currentValue){
+                    return currentValue == "E"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                document.getElementById("E").disabled = true;
+                    document.getElementById("NoWords").innerHTML += "E";
+                    hatali();
+                }
+                        if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            document.getElementById("E").disabled = true;
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            selectWord();
+                        }
+            }
+            function harfF(){
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "F"){
+                        document.getElementById("line"+w).style.color = "black";
+                        cıkanHarfler.push("A");
+                            document.getElementById("F").disabled = true;
+                        if(cıkanHarfler.length == selectedWord.length){
+                            document.getElementById("F").disabled = true;
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            selectWord();
+                        }
+                    }
+                }
+                
+                function kelimedeHarf(currentValue){
+                    return currentValue == "F"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                document.getElementById("F").disabled = true;
+                    document.getElementById("NoWords").innerHTML += "F";
+                    hatali();
+                }
+                        if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            document.getElementById("F").disabled = true;
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            selectWord();
+                        }
+            }
+            function harfG(){
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "G"){
+                        document.getElementById("line"+w).style.color = "black";
+                        cıkanHarfler.push("A");
+                            document.getElementById("G").disabled = true;
+                    }
+                }
+                function kelimedeHarf(currentValue){
+                    return currentValue == "G"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                document.getElementById("G").disabled = true;
+                    document.getElementById("NoWords").innerHTML += "G";
+                    hatali();
+                }
+                if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            document.getElementById("G").disabled = true;
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            
+                            selectWord();
+                        }
+            }
+            function harfĞ(){
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "Ğ"){
+                        document.getElementById("line"+w).style.color = "black";
+                        cıkanHarfler.push("A");
+                            document.getElementById("Ğ").disabled = true;
+                    }
+                }
+                function kelimedeHarf(currentValue){
+                    return currentValue == "Ğ"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                document.getElementById("Ğ").disabled = true;
+                    document.getElementById("NoWords").innerHTML += "Ğ";
+                    hatali();
+                }
+                        if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            document.getElementById("Ğ").disabled = true;
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            selectWord();                            
+
+                        }
+            }
+            function harfH(){
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "H"){
+                        document.getElementById("line"+w).style.color = "black";
+                        cıkanHarfler.push("A");
+                            document.getElementById("H").disabled = true;
+                    }
+                }
+                function kelimedeHarf(currentValue){
+                    return currentValue == "H"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                document.getElementById("H").disabled = true;
+                    document.getElementById("NoWords").innerHTML += "H";
+                    hatali();
+                }
+                        if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            document.getElementById("H").disabled = true;
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            selectWord();
+                        }
+            }
+            function harfI(){
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "I"){
+                        document.getElementById("line"+w).style.color = "black";
+                        cıkanHarfler.push("A");
+                            document.getElementById("I").disabled = true;
+                    }
+                }
+                function kelimedeHarf(currentValue){
+                    return currentValue == "I"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                document.getElementById("I").disabled = true;
+                    document.getElementById("NoWords").innerHTML += "I";
+                    hatali();
+                }
+                        if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            document.getElementById("I").disabled = true;
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            selectWord();
+                        }
+            }
+            function harfİ(){
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "İ"){
+                        document.getElementById("line"+w).style.color = "black";
+                        cıkanHarfler.push("A");
+                            document.getElementById("İ").disabled = true;
+                    }
+                }
+                function kelimedeHarf(currentValue){
+                    return currentValue == "İ"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                document.getElementById("İ").disabled = true;
+                    document.getElementById("NoWords").innerHTML += "İ";
+                    hatali();
+                }
+                        if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            document.getElementById("İ").disabled = true;
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            selectWord();
+                        }
+            }
+            function harfJ(){
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "J"){
+                        document.getElementById("line"+w).style.color = "black";
+                        cıkanHarfler.push("A");
+                            document.getElementById("J").disabled = true;
+                    }
+                }
+                function kelimedeHarf(currentValue){
+                    return currentValue == "J"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                document.getElementById("J").disabled = true;
+                    document.getElementById("NoWords").innerHTML += "J";
+                    hatali();
+                }
+                        if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            document.getElementById("J").disabled = true;
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            selectWord();
+                        }
+            }
+            function harfK(){
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "K"){
+                        document.getElementById("line"+w).style.color = "black";
+                        cıkanHarfler.push("A");
+                            document.getElementById("K").disabled = true;
+                    }
+                }
+                function kelimedeHarf(currentValue){
+                    return currentValue == "K"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                document.getElementById("K").disabled = true;
+                    document.getElementById("NoWords").innerHTML += "K";
+                    hatali();
+                }
+                        if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            document.getElementById("K").disabled = true;
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            selectWord();
+                        }
+            }
+            function harfL(){
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "L"){
+                        document.getElementById("line"+w).style.color = "black";
+                        cıkanHarfler.push("A");
+                            document.getElementById("L").disabled = true;
+                    }
+                }
+                function kelimedeHarf(currentValue){
+                    return currentValue == "L"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                document.getElementById("L").disabled = true;
+                    document.getElementById("NoWords").innerHTML += "L";
+                    hatali();
+                }
+                        if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            document.getElementById("L").disabled = true;
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            selectWord();
+                        }
+            }
+            function harfM(){
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "M"){
+                        document.getElementById("line"+w).style.color = "black";
+                        cıkanHarfler.push("A");
+                            document.getElementById("M").disabled = true;
+                    }
+                }
+                function kelimedeHarf(currentValue){
+                    return currentValue == "M"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                document.getElementById("M").disabled = true;
+                    document.getElementById("NoWords").innerHTML += "M";
+                    hatali();
+                }
+                        if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            document.getElementById("M").disabled = true;
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            selectWord();
+                        }
+            }
+            function harfN(){
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "N"){
+                        document.getElementById("line"+w).style.color = "black";
+                        cıkanHarfler.push("A");
+                            document.getElementById("N").disabled = true;
+                    }
+                }
+                function kelimedeHarf(currentValue){
+                    return currentValue == "N"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                document.getElementById("N").disabled = true;
+                    document.getElementById("NoWords").innerHTML += "N";
+                    hatali();
+                }
+                        if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            document.getElementById("N").disabled = true;
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            selectWord();
+                        }
+            }
+            function harfO(){
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "O"){
+                        document.getElementById("line"+w).style.color = "black";
+                        cıkanHarfler.push("A");
+                            document.getElementById("O").disabled = true;
+                    }
+                }
+                function kelimedeHarf(currentValue){
+                    return currentValue == "O"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                document.getElementById("O").disabled = true;
+                    document.getElementById("NoWords").innerHTML += "O";
+                    hatali();
+                }
+                        if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            document.getElementById("O").disabled = true;
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            selectWord();
+                        }
+            }
+            function harfÖ(){
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "Ö"){
+                        document.getElementById("line"+w).style.color = "black";
+                        cıkanHarfler.push("A");
+                            document.getElementById("Ö").disabled = true;
+                    }
+                }
+                function kelimedeHarf(currentValue){
+                    return currentValue == "Ö"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                document.getElementById("Ö").disabled = true;
+                    document.getElementById("NoWords").innerHTML += "Ö";
+                    hatali();
+                }
+                        if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            document.getElementById("Ö").disabled = true;
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            selectWord();
+                        }
+            }
+            function harfP(){
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "P"){
+                        document.getElementById("line"+w).style.color = "black";
+                        cıkanHarfler.push("A");
+                            document.getElementById("P").disabled = true;
+                    }
+                }
+                function kelimedeHarf(currentValue){
+                    return currentValue == "P"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                document.getElementById("P").disabled = true;
+                    document.getElementById("NoWords").innerHTML += "P";
+                    hatali();
+                }
+                        if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            document.getElementById("P").disabled = true;
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            selectWord();
+                        }
+            }
+            function harfR(){
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "R"){
+                        document.getElementById("line"+w).style.color = "black";
+                        cıkanHarfler.push("A");
+                            document.getElementById("R").disabled = true;
+                    }
+                }
+                function kelimedeHarf(currentValue){
+                    return currentValue == "R"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                document.getElementById("R").disabled = true;
+                    document.getElementById("NoWords").innerHTML += "R";
+                    hatali();
+                }
+                        if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            document.getElementById("R").disabled = true;
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            selectWord();
+                        }
+            }
+            function harfS(){
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "S"){
+                        document.getElementById("line"+w).style.color = "black";
+                        cıkanHarfler.push("A");
+                            document.getElementById("S").disabled = true;
+                    }
+                }
+                function kelimedeHarf(currentValue){
+                    return currentValue == "S"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                document.getElementById("S").disabled = true;
+                    document.getElementById("NoWords").innerHTML += "S";
+                    hatali();
+                }
+                        if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            document.getElementById("S").disabled = true;
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            selectWord();
+                        }
+            }
+            function harfŞ(){
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "Ş"){
+                        document.getElementById("line"+w).style.color = "black";
+                        cıkanHarfler.push("A");
+                            document.getElementById("Ş").disabled = true;
+                    }
+                }
+                function kelimedeHarf(currentValue){
+                    return currentValue == "Ş"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                document.getElementById("Ş").disabled = true;
+                    document.getElementById("NoWords").innerHTML += "Ş";
+                    hatali();
+                }
+                        if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            document.getElementById("Ş").disabled = true;
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            selectWord();
+                        }
+            }
+            function harfT(){
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "T"){
+                        document.getElementById("line"+w).style.color = "black";
+                        cıkanHarfler.push("A");
+                            document.getElementById("T").disabled = true;
+                    }
+                }
+                function kelimedeHarf(currentValue){
+                    return currentValue == "T"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                document.getElementById("T").disabled = true;
+                    document.getElementById("NoWords").innerHTML += "T";
+                    hatali();
+                }
+                        if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            document.getElementById("T").disabled = true;
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            selectWord();
+                        }
+            }
+            function harfU(){
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "U"){
+                        document.getElementById("line"+w).style.color = "black";
+                        cıkanHarfler.push("A");
+                            document.getElementById("U").disabled = true;
+                    }
+                }
+                function kelimedeHarf(currentValue){
+                    return currentValue == "U"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                document.getElementById("U").disabled = true;
+                    document.getElementById("NoWords").innerHTML += "U";
+                    hatali();
+                }
+                        if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            document.getElementById("U").disabled = true;
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            selectWord();
+                        }
+            }
+            function harfÜ(){
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "Ü"){
+                        document.getElementById("line"+w).style.color = "black";
+                        cıkanHarfler.push("A");
+                            document.getElementById("Ü").disabled = true;
+                    }
+                }
+                function kelimedeHarf(currentValue){
+                    return currentValue == "Ü"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                document.getElementById("Ü").disabled = true;
+                    document.getElementById("NoWords").innerHTML += "Ü";
+                    hatali();
+                }
+                        if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            document.getElementById("Ü").disabled = true;
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            selectWord();
+                        }
+            }
+            function harfV(){
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "V"){
+                        document.getElementById("line"+w).style.color = "black";
+                        cıkanHarfler.push("A");
+                            document.getElementById("V").disabled = true;
+                    }
+                }
+                function kelimedeHarf(currentValue){
+                    return currentValue == "V"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                document.getElementById("V").disabled = true;
+                    document.getElementById("NoWords").innerHTML += "V";
+                    hatali();
+                }
+                        if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            document.getElementById("V").disabled = true;
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            selectWord();
+                        }
+            }
+            function harfY(){
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "Y"){
+                        document.getElementById("line"+w).style.color = "black";
+                        cıkanHarfler.push("A");
+                            document.getElementById("Y").disabled = true;
+                    }
+                }
+                function kelimedeHarf(currentValue){
+                    return currentValue == "Y"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                document.getElementById("Y").disabled = true;
+                    document.getElementById("NoWords").innerHTML += "Y";
+                    hatali();
+                }
+                        if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            document.getElementById("Y").disabled = true;
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            selectWord();
+                        }
+            }
+            function harfZ(){
+                for(var w = 0; w < selectedWord.length; w++){
+                    var harf = document.getElementById("line" + w).innerHTML;
+                    if(harf == "Z"){
+                        document.getElementById("line"+w).style.color = "black";
+                        cıkanHarfler.push("A");
+                            document.getElementById("Z").disabled = true;
+                    }
+                }
+                function kelimedeHarf(currentValue){
+                    return currentValue == "Z"; 
+                }
+                if(splitWord.find(kelimedeHarf) == undefined){
+                document.getElementById("Z").disabled = true;
+                    document.getElementById("NoWords").innerHTML += "Z";
+                    hatali();
+                }
+                        if(cıkanHarfler.length == selectedWord.length){
+                            var skor = document.getElementById("skor").innerHTML;
+                            document.getElementById("skor").innerHTML = Number(skor) + Number(1);
+                            document.getElementById("Z").disabled = true;
+                            for(var c = 0; c<selectedWord.length; c++){
+                                document.getElementById("line"+ c).remove();
+                            }
+                            for(var z = 2; z < 8; z++){
+                                if(document.getElementById("tuval" + z).style.display == "flex"){
+                                    document.getElementById("tuval" +z).style.display = "none";
+                                }
+                            }
+                            cıkanHarfler = [];
+                            document.getElementById("NoWords").innerHTML = "";
+                            document.getElementById("A").disabled = false;
+                            document.getElementById("B").disabled = false;
+                            document.getElementById("C").disabled = false;
+                            document.getElementById("Ç").disabled = false;
+                            document.getElementById("D").disabled = false;
+                            document.getElementById("E").disabled = false;
+                            document.getElementById("F").disabled = false;
+                            document.getElementById("G").disabled = false;
+                            document.getElementById("Ğ").disabled = false;
+                            document.getElementById("H").disabled = false;
+                            document.getElementById("I").disabled = false;
+                            document.getElementById("İ").disabled = false;
+                            document.getElementById("J").disabled = false;
+                            document.getElementById("K").disabled = false;
+                            document.getElementById("L").disabled = false;
+                            document.getElementById("M").disabled = false;
+                            document.getElementById("N").disabled = false;
+                            document.getElementById("O").disabled = false;
+                            document.getElementById("Ö").disabled = false;
+                            document.getElementById("P").disabled = false;
+                            document.getElementById("R").disabled = false;
+                            document.getElementById("S").disabled = false;
+                            document.getElementById("Ş").disabled = false;
+                            document.getElementById("T").disabled = false;
+                            document.getElementById("U").disabled = false;
+                            document.getElementById("Ü").disabled = false;
+                            document.getElementById("V").disabled = false;
+                            document.getElementById("Y").disabled = false;
+                            document.getElementById("Z").disabled = false;
+                            selectWord();
+                        }
+            }
+            
+            /* CANVAS CIZIM*/
+            
+            var tuval = document.getElementById("tuval");
+            var cizim = tuval.getContext("2d");
+            cizim.beginPath();/* DARAGACI */
+            cizim.moveTo(75, 25);
+            cizim.lineTo(75, 15);
+            cizim.lineTo(125 ,15);
+            cizim.lineTo(125, 145);
+            cizim.moveTo(110, 145);
+            cizim.lineTo(140, 145);
+            cizim.stroke();
+
+            var tuval2 = document.getElementById("tuval2");
+            var cizim2 = tuval2.getContext("2d");
+            cizim2.beginPath();
+            /* KAFA */
+            cizim2.moveTo(100, 50);
+            cizim2.arc(75, 50, 25, 0, 2 * Math.PI);
+            cizim2.stroke();
+            
+            var tuval3 = document.getElementById("tuval3");
+            var cizim3 = tuval3.getContext("2d");
+            cizim3.beginPath();
+            /* GOVDE */
+            cizim3.moveTo(75, 75);
+            cizim3.lineTo(75, 115);
+            cizim3.stroke();
+
+            var tuval4 = document.getElementById("tuval4");
+            var cizim4 = tuval4.getContext("2d");
+            cizim4.beginPath();
+            /* KOL */
+            cizim4.moveTo(75, 75);
+            cizim4.lineTo(95, 95);
+            cizim4.stroke();
+
+            var tuval5 = document.getElementById("tuval5");
+            var cizim5 = tuval5.getContext("2d");
+            cizim5.beginPath();
+            /* KOL 2 */  
+            cizim5.moveTo(75, 75);
+            cizim5.lineTo(55, 95);
+            cizim5.stroke();
+
+            var tuval6 = document.getElementById("tuval6");
+            var cizim6 = tuval6.getContext("2d");
+            cizim6.beginPath();
+            /* BACAK */
+            cizim6.moveTo(75, 115);
+            cizim6.lineTo(55, 145);
+            cizim6.stroke();
+
+            var tuval7 = document.getElementById("tuval7");
+            var cizim7 = tuval7.getContext("2d");
+            cizim6.beginPath();
+            /* BACAK 2 */
+            cizim7.moveTo(75, 115);
+            cizim7.lineTo(95, 145);
+            cizim7.stroke();
+            
+            
+        </script>
+    </body>
+</html>
